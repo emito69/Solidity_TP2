@@ -5,7 +5,7 @@ import "hardhat/console.sol";  //https://remix-ide.readthedocs.io/en/latest/hard
 
 contract Tp2_Auction {
 
-/**** Data ***/
+/**** Data  ***/
 
     address public owner;
     uint256 private init_value;
@@ -62,7 +62,7 @@ contract Tp2_Auction {
     }
 
 
-/****   Auxiliaries 1  *******/
+/****   Auxiliaries   *******/
 
     modifier onlyOwner(){
         require(owner==msg.sender,"not the owner");
@@ -117,8 +117,7 @@ contract Tp2_Auction {
 
 // https://stackoverflow.com/questions/70907172/how-to-store-unique-value-in-an-array-using-for-loop-in-solidity
 
-
-    // only add `msg.sender` to `bidders` if it's not there yet
+    // only add `msg.sender` to `uniqueArray` if it's not there yet
     function addUnique(address _id) private {
         // check against the mapping
         if (isBidder[_id] == false) {
