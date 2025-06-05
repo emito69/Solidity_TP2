@@ -148,13 +148,6 @@ contract Tp2_Auction {
       }
 
 
-/****    Claim $$$    *******/
-
-    function claim() external {
-
-
-    }
-
 /****   Show Offers  *******/
 
     function showOffers() external view returns (Person2[] memory) {
@@ -166,6 +159,17 @@ contract Tp2_Auction {
     function showWinner() external view returns (Person2 memory) {
         return winner;
     }
+
+
+
+/****    Claim $$$    *******/
+
+    function claim() external {
+     
+     /// COMPLETAR Funcionalidades Avanzadas: Reembolso parcial
+
+    }
+
 
 /****    End Auction     *******/
 
