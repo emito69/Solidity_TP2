@@ -37,11 +37,14 @@ contract Tp2_Auction {
 
     Person2 public winner;
 
-    event NewOffer(address indexed _id, uint256 _value);
-    event AuctionEnded(address indexed _id, uint256 _value);
 
     address payable[] public uniqueArray; // ya payable para enviarles el dinero
     mapping (address => bool) isBidder; // default `false`
+
+/****   Events   *******/
+
+    event NewOffer(address indexed _id, uint256 _value);
+    event AuctionEnded(address _id, uint256 _value);
 
 /****   Constructor   *******/
 
@@ -176,26 +179,25 @@ contract Tp2_Auction {
 
 /****    Return $$$     *******/
 
-
     function transferEther(address payable _to) internal {
             // MSG.SENDER.CALL() - It calls the anonymous fallback function on msg.sender.
             // Las comillas vacías "" es porque no está llamando a ninguna función, por eso cae en fallback.
             // porque hacer un CALL CON PARÁMETROS VACÍO ES COMO HACER UN SEND.
             // puedo ponerle el normbre de una función entre las comillas
-            // ejemplo poner 2300 límite del gas enviado
+            // 2300 límite del gas enviado
 
-        (bool result, ) = _to.call{gas: 2300, value:infoMapp[_to].balance}(""); 
+        (bool result, ) = _to.call{gas: 2300, value: (infoMapp[_to].balance * 98 / 100)}(""); 
 
-        if( result == false){   // la función no revierte, devuelve True/False
+        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
             revert("fallo el envio");  // yo revierto si falló
         }
     }
 
     function transferEtherWinner(address payable _to) internal {
 
-        (bool result, ) = _to.call{gas: 2300, value: (infoMapp[_to].balance - winner.value)}(""); 
+        (bool result, ) = _to.call{gas: 2300, value: ( (infoMapp[_to].balance - winner.value) * 98 / 100)}(""); 
 
-        if( result == false){   // la función no revierte, devuelve True/False
+        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
             revert("fallo el envio");  // yo revierto si falló
         }
     }
@@ -209,16 +211,6 @@ contract Tp2_Auction {
                 transferEtherWinner(uniqueArray[i]);  // 
             }
         }
-
-  
-  //     (bool result, ) = msg.sender.call{gas: 2300, value:transferByDeposit[msg.sender]}(""); 
-        // require (result); DEBERÍAMOS CHEQUEAR EL RESULTADO POR SI SALIÓ MAL, HACER UN REVERT
-
-  //      (result, ) = msg.sender.call{gas: 2300, value:transferByOther[msg.sender]}("");
-        // (result, bytes memory resultado) = msg.sender.call{gas: 2300, value:transferByOther[msg.sender]}("");
-            // si la función que llamafos devolviera un resultado
-    
-
     }
 
 }
