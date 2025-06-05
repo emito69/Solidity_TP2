@@ -56,7 +56,7 @@ contract Tp2_Auction {
 
         window = 10 seconds;  // time window to increase Auction duration
        
-        init_value = 100 wei;
+        init_value = 100 wei;  // set Base Offer $$$
 
         winner.id = owner;
         winner.value = init_value;
