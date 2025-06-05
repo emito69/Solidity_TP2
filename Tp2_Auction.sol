@@ -37,14 +37,15 @@ contract Tp2_Auction {
 
     Person2 public winner;
 
-
     address payable[] public uniqueArray; // ya payable para enviarles el dinero
     mapping (address => bool) isBidder; // default `false`
+
 
 /****   Events   *******/
 
     event NewOffer(address indexed _id, uint256 _value);
     event AuctionEnded(address _id, uint256 _value);
+
 
 /****   Constructor   *******/
 
@@ -118,8 +119,45 @@ contract Tp2_Auction {
     }
 
 
-// https://stackoverflow.com/questions/70907172/how-to-store-unique-value-in-an-array-using-for-loop-in-solidity
+    function transferEther(address payable _to) internal returns (bool, uint256) {
+            // MSG.SENDER.CALL() - It calls the anonymous fallback function on msg.sender.
+            // Las comillas vacías "" es porque no está llamando a ninguna función, por eso cae en fallback.
+            // porque hacer un CALL CON PARÁMETROS VACÍO ES COMO HACER UN SEND.
+            // puedo ponerle el normbre de una función entre las comillas
+            // 2300 límite del gas enviado
 
+        uint256 aux_val1 = (infoMapp[_to].balance);
+        uint256 aux_val2 = (aux_val1 * 98 / 100);
+
+        (bool result, ) = _to.call{gas: 2300, value:aux_val2}(""); 
+
+        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+            aux_val1 = 0;
+            return (result, aux_val1);
+        } else {
+            return (result, aux_val1);
+        }
+    }
+
+
+    function transferEtherWinner(address payable _to) internal returns (bool, uint256) {
+
+        uint256 aux_val1 = (infoMapp[_to].balance - winner.value);
+        uint256 aux_val2 = (aux_val1 * 98 / 100);
+
+        (bool result, ) = _to.call{gas: 2300, value:aux_val2}(""); 
+
+        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+            aux_val1 = 0;
+            return (result, aux_val1);
+        } else {
+            return (result, aux_val1);
+        }
+    }
+
+
+    // REFFERENCE SOLUTION: https://stackoverflow.com/questions/70907172/how-to-store-unique-value-in-an-array-using-for-loop-in-solidity
+   
     // only add `msg.sender` to `uniqueArray` if it's not there yet
     function addUnique(address _id) private {
         // check against the mapping
@@ -183,38 +221,52 @@ contract Tp2_Auction {
 
 /****    Return $$$     *******/
 
-    function transferEther(address payable _to) internal {
-            // MSG.SENDER.CALL() - It calls the anonymous fallback function on msg.sender.
-            // Las comillas vacías "" es porque no está llamando a ninguna función, por eso cae en fallback.
-            // porque hacer un CALL CON PARÁMETROS VACÍO ES COMO HACER UN SEND.
-            // puedo ponerle el normbre de una función entre las comillas
-            // 2300 límite del gas enviado
-
-        (bool result, ) = _to.call{gas: 2300, value: (infoMapp[_to].balance * 98 / 100)}(""); 
-
-        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-            revert("fallo el envio");  // yo revierto si falló
-        }
-    }
-
-    function transferEtherWinner(address payable _to) internal {
-
-        (bool result, ) = _to.call{gas: 2300, value: ( (infoMapp[_to].balance - winner.value) * 98 / 100)}(""); 
-
-        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-            revert("fallo el envio");  // yo revierto si falló
-        }
-    }
-
+    
     function returnOffers() external onlyOwner auctionEnded{
+
+     bool result;
+     uint256 aux_val;
 
        for (uint i = 0; i < uniqueArray.length; i++) {
             if(uniqueArray[i] != winner.id){
-                transferEther(uniqueArray[i]);
-            }else{
-                transferEtherWinner(uniqueArray[i]);  // 
+
+                (result, aux_val) = transferEther(uniqueArray[i]);
+                
+                if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+                    revert("fallo el envio");  // yo revierto si falló
+                } else {
+                    // updat infoMapp:
+                    infoMapp[uniqueArray[i]].value = 0;  // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas  - pongo 0 sólo como referencia
+                    infoMapp[uniqueArray[i]].balance -= aux_val;  
+
+                    // updat infoArray
+                    Person2 memory aux;
+                    aux.id = uniqueArray[i];
+                    aux.value = 0; // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas - pongo 0 sólo como referencia
+                    infoArray.push(aux);
+                }
+
+            } else {
+
+                (result, aux_val) = transferEtherWinner(uniqueArray[i]); 
+
+                if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+                    revert("fallo el envio");  // yo revierto si falló
+                } else {
+                    // updat infoMapp:
+                    infoMapp[uniqueArray[i]].value = 0;  // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas  - pongo 0 sólo como referencia
+                    infoMapp[uniqueArray[i]].balance -= aux_val;  
+
+                    // updat infoArray
+                    Person2 memory aux;
+                    aux.id = uniqueArray[i];
+                    aux.value = 0; // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas - pongo 0 sólo como referencia
+                    infoArray.push(aux);
+                }
             }
         }
     }
+
+
 
 }
