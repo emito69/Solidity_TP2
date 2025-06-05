@@ -27,11 +27,7 @@ Solidity_TP2
 
 
 
-<div id="badges" align="center">
-    <a href="https://www.linkedin.com/in/emiliano-alvarez-a6677b1b4/">
-        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin Badge"  style="max-width: 100%;">
-    </a> 
-</div>
+
 
 <hr>
 <div align="left">
@@ -43,6 +39,7 @@ Solidity_TP2
   <br>
 </div>
 
+ <h4> About me : </h4>
 ### About me : 
 
 - 👯 I’m looking to collaborate on web developmet projects.
@@ -50,7 +47,11 @@ Solidity_TP2
 - 📝 I’m currently learning new back and front-end programming skills
 
 - 📫 How to reach me: alvarezemiliano@gmail.com
-
 <br>
+<div id="badges" align="center">
+    <a href="https://www.linkedin.com/in/emiliano-alvarez-a6677b1b4/">
+        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin Badge"  style="max-width: 100%;">
+    </a> 
+</div>
 <br>
 </div>
