@@ -17,7 +17,7 @@ En el README de github no puedo añadir scrpits de java o css, tengo que trabaja
 Solidity_TP2
 
 <div id="header" align="center">
-  <h1 align="center"> ⚡ Auction SmartContract - TP2 Solidity ⚡</h1>
+  <h1 align="center"> <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> Auction SmartContract - TP2 Solidity <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> </h1>
   <h4 align="center"> I´m an Electronics Engineer working as an Instrumentation and Control Engineer at Transportadora de Gas del Sur (TGS) in Argentina.</h4>
   <h4 align="center"> I have also completed courses of Machine Learnign, Artificial Intelligence and Web develepment.</h4>
 </div>
