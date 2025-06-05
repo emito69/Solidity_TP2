@@ -23,8 +23,6 @@ Solidity_TP2
 </div>
 
 
-<hr>
-
 
 
 
@@ -38,6 +36,7 @@ Solidity_TP2
   <br>
 </div>
 
+<hr>
  <h4> 🔭 About me : </h4>
 
 - 👯 I’m looking to collaborate on web developmet projects.
