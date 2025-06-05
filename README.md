@@ -32,15 +32,13 @@ Solidity_TP2
 <hr>
 <div align="left">
  <h4> 🛠 Lenguages & Tools : </h4>
- <div>
   <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-original.svg" title="Solidity" alt="Solidity" height="30" width="40"/>
   <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/>
   <br>
   <br>
 </div>
 
- <h4> About me : </h4>
-### About me : 
+ <h4> 🔭 About me : </h4>
 
 - 👯 I’m looking to collaborate on web developmet projects.
 
