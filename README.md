@@ -21,14 +21,12 @@ Solidity_TP2
   <h6 align="center"> I´m an Electronics Engineer working as an Instrumentation and Control Engineer at Transportadora de Gas del Sur (TGS) in Argentina.</h6>
   <h6 align="center"> I have also completed courses of Machine Learnign, Artificial Intelligence and Web develepment.</h6>
   <br>
-  
- holaaaa
-
 </div>
 
+<div align="left">
+<small>This is some smaller text.</small>
 
-
-
+</div>
 
 
 <hr>
