@@ -1,4 +1,16 @@
-<p align="center"><img src="https://raw.githubusercontent.com/smartcontractkit/documentation/main/public/chainlink-docs.svg" style="background: white; padding: 8px;" alt="Chainlink Docs logo" width="400"></p>
+Solidity_TP2
+
+<div id="header" align="center">
+  <h2 align="center"> <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> Auction SmartContract - TP2 Solidity <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> </h2>
+  <h6 align="center"> I´m an Electronics Engineer working as an Instrumentation and Control Engineer at Transportadora de Gas del Sur (TGS) in Argentina.</h6>
+  <h6 align="center"> I have also completed courses of Machine Learnign, Artificial Intelligence and Web develepment.</h6>
+  <br>
+</div>
+
+<div align="left">
+<small>This is some smaller text.</small>
+
+</div>
 
 Welcome to Chainlink developer documentation repository. This repository is the source for developer documentation on [docs.chain.link](https://docs.chain.link/), which is a resource for smart contract developers and node operators building decentralized applications on several networks.
 
