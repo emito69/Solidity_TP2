@@ -9,8 +9,10 @@ Solidity_TP2
 
 <div align="left">
 <small>This is some smaller text.</small>
-
 </div>
+
+<hr>
+<hr>
 
 Welcome to Chainlink developer documentation repository. This repository is the source for developer documentation on [docs.chain.link](https://docs.chain.link/), which is a resource for smart contract developers and node operators building decentralized applications on several networks.
 
