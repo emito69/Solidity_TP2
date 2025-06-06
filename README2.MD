@@ -54,7 +54,7 @@ If you want to reference Chainlink documentation in your documentation, please i
 
 For example:
 
-```solidity
+```
 Ethereum is integrated with the following Chainlink services:
 - [Data Feeds](https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum)
 - [CCIP](https://docs.chain.link/ccip/directory/mainnet/chain/mainnet)
