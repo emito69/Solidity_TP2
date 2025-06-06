@@ -150,6 +150,13 @@
 			},
 			{
 				"inputs": [],
+				"name": "ownerClaim",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "returnOffers",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -297,11 +304,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0xc914a87db489ff2456481e46066e90232f53c16362007d9a9202f422e2912017",
+			"keccak256": "0x52f8493493fc229c2286b21852365012d7b22d19292ce7db2c452197870020b6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://49706fa4c549dadf7cc5c892cd58545f045b207fa2ab5138cc7959f286bd65e1",
-				"dweb:/ipfs/QmQdikCfuqJ9fipQe4eMJABDfbEeEb16JFUSxy1gx7h7e7"
+				"bzz-raw://ef2895b851eb09886a7ea3549dd44123b26360fbd7278b30ee1ef4f088283c47",
+				"dweb:/ipfs/QmNQRV6UDrQMFwKE3uHHSuC35aPm7r4tWHBNddcZDRyBZz"
 			]
 		},
 		"hardhat/console.sol": {

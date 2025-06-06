@@ -343,5 +343,17 @@ contract Tp2_Auction {
     }
 
 
+/****    OWNER CLAIM $$$     *******/
+
+    
+    function ownerClaim() external onlyOwner auctionEnded{
+
+        (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
+
+        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+            revert("fallo el envio");  // yo revierto si falló
+        } 
+    }
+
 
 }
