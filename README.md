@@ -50,9 +50,141 @@ The Tp2_Auction contract implements an English auction mechanism where:
 - Funds are securely managed and distributed after auction conclusion
 ```
 
+## Key Features
 
+### Core Functionality
+```
+- Time-limited auction with 1-week initial duration
 
+- 10-minute extension window when bids are placed near expiration
 
+- Minimum 5% bid increment requirement
+
+- Transparent bid history tracking
+
+- Secure fund management
+```
+### Participant Management
+```
+- Automatic tracking of unique bidders
+
+- Balance management for each participant
+
+- Clear winner determination
+
+- Secure claim process for non-winning bidders
+```
+## Technical Specifications
+
+### Environment Requirements
+```
+- Solidity ^0.8.0
+
+- Hardhat (for development and testing)
+
+- Compatible with EVM blockchains
+```
+### Contract Variables
+```
+| Variable | Type | Description |
+|----------|------|-------------|
+| `owner` | `address` | Contract administrator |
+| `init_value` | `uint256` | Initial minimum bid value |
+| `expiration` | `uint256` | Auction end timestamp |
+| `state` | `enum State` | Current auction state (on/off) |
+| `winner` | `struct Person2` | Current highest bidder |
+```
+## Contract Structure
+
+### Data Structures
+
+```solidity
+struct Person {
+    address id;       // Bidder address
+    uint256 value;    // Last valid bid amount
+    uint256 balance;  // Total deposited funds
+}
+
+struct Person2 {
+    address id;       // Participant address
+    uint256 value;    // Transaction amount
+}
+
+### Modifiers
+```
+modifier onlyOwner()       // Restricts to contract owner
+modifier isBidderM()       // Verifies registered bidder
+modifier auctionAlive()    // Ensures auction is active
+modifier auctionEnded()    // Ensures auction has concluded
+modifier validOffer()      // Validates bid requirements
+```
+
+## Usage Guide
+### Placing a Bid
+
+```javascript
+// To place a bid:
+auctionContract.Offer({value: bidAmount});
+// Minimum bid: current highest bid * 1.05
+```
+### Checking Auction Status
+
+```javascript
+// View current winner:
+const winner = await auctionContract.showWinner();
+
+// View all bids:
+const bids = await auctionContract.showOffers();
+```
+### Claiming Funds
+
+```javascript
+// For bidders to claim excess funds:
+await auctionContract.claim();
+
+// For owner to distribute funds after auction:
+await auctionContract.returnOffers();
+
+// For owner to withdraw proceeds:
+await auctionContract.ownerClaim();
+```
+
+## Events
+### NewOffer
+
+```
+Emitted when a valid bid is placed
+- Parameters:
+  - address indexed _id: Bidder address
+  - uint256 _value: Bid amount
+```
+### AuctionEnded
+
+```
+Emitted when auction concludes
+- Parameters:
+  - address _id: Winner address
+  - uint256 _value: Winning amount
+```
+
+## Security Considerations
+
+```
+1. All fund transfers use 2300 gas limit to prevent reentrancy
+2. Critical functions are owner-restricted
+3. Bid validation includes both amount and timing checks
+4. State transitions are carefully controlled
+5. Funds are automatically returned after auction conclusion
+```
+
+## Security Considerations
+
+```
+
+MIT License
+Copyright (c) [year] [fullname]
+```
+ <h6 align="center"> This README provides comprehensive documentation for developers and users of the auction contract. The clear structure and detailed explanations make it easy to understand and implement the auction system.</h6>
 
 
 <hr>
