@@ -5,12 +5,17 @@ import "hardhat/console.sol";  //https://remix-ide.readthedocs.io/en/latest/hard
 
 contract Tp2_Auction {
 
+/// @notice 
+/// @dev
+/// @params
+
+
 /**** Data  ***/
 
-    address public owner;
+    address private owner;
     uint256 private init_value;
     uint256 private init_time;
-    uint256 public window;
+    uint256 private window;
     uint256 public expiration;
     
     enum State{ 
@@ -22,8 +27,8 @@ contract Tp2_Auction {
 
     struct Person{
         address id;
-        uint256 value;    // se almacena la última oferta válida
-        uint256 balance;
+        uint256 value;    // will save the last valid offer for each person
+        uint256 balance;  // will save the balance for each person (including offers, claimsclaims)
     }
 
     mapping (address => Person) public infoMapp;   
@@ -37,7 +42,7 @@ contract Tp2_Auction {
 
     Person2 public winner;
 
-    address payable[] public uniqueArray; // ya payable para enviarles el dinero
+    address payable[] public uniqueArray; // created as payables in order to use them to send money later
     mapping (address => bool) isBidder; // default `false`
 
 
@@ -53,11 +58,11 @@ contract Tp2_Auction {
         owner=msg.sender;
         
         init_time = block.timestamp;
-        expiration = init_time + 20 seconds;   // set Auction duration
+        expiration = init_time + 1 weeks;   // set Auction duration
 
-        window = 10 seconds;  // time window to increase Auction duration
+        window = 10 minutes;  // time window to increase Auction duration
        
-        init_value = 10 ether;  // set Base Offer $$$
+        init_value = 1000000 wei;  // set Base Offer $$$
 
         winner.id = owner;
         winner.value = init_value;
@@ -126,19 +131,19 @@ contract Tp2_Auction {
 
     function returnEther(address payable _to) internal returns (bool, uint256) {
             // MSG.SENDER.CALL() - It calls the anonymous fallback function on msg.sender.
-            // Las comillas vacías "" es porque no está llamando a ninguna función, por eso cae en fallback.
-            // porque hacer un CALL CON PARÁMETROS VACÍO ES COMO HACER UN SEND.
-            // puedo ponerle el normbre de una función entre las comillas
-            // 2300 límite del gas enviado
+            // The empty quotes "" mean it's not calling any function, which is why it falls back to the fallback.
+            // Because making a call with empty parameters is like doing a SEND.
+            // I can put a function name inside the quotes
+            // 2300 gas limit sent
 
         uint256 aux_val1 = (infoMapp[_to].balance);
         uint256 aux_val2 = (aux_val1 * 98 / 100);
 
         (bool result, ) = _to.call{gas: 2300, value:aux_val2}(""); 
 
-        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+        if( result == false){   // The function does not revert; it returns True/False, so the return value must be checked
             aux_val1 = 0;
-            return (result, aux_val1);
+            return (result, aux_val1);  //  revert if failed
         } else {
             return (result, aux_val1);
         }
@@ -152,7 +157,7 @@ contract Tp2_Auction {
 
         (bool result, ) = _to.call{gas: 2300, value:aux_val2}(""); 
 
-        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+        if( result == false){   
             aux_val1 = 0;
             return (result, aux_val1);
         } else {
@@ -163,14 +168,14 @@ contract Tp2_Auction {
 
     function returnClaimedEthers(address payable _to) internal returns (bool, uint256) {
 
-        if (infoMapp[_to].balance > infoMapp[_to].value) {// value is the last valid offer 
+        if (infoMapp[_to].balance > infoMapp[_to].value) { // value in the mapp is the last valid offer 
            
-            uint256 aux_val1 = (infoMapp[_to].balance - infoMapp[_to].value); // value is the last valid offer 
+            uint256 aux_val1 = (infoMapp[_to].balance - infoMapp[_to].value); // value in the mapp is the last valid offer 
             uint256 aux_val2 = (aux_val1 * 98 / 100);
 
             (bool result, ) = _to.call{gas: 2300, value:aux_val2}(""); 
 
-            if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
+            if( result == false){   
                 aux_val1 = 0;
                 return (result, aux_val1);
             } else {
@@ -183,21 +188,19 @@ contract Tp2_Auction {
         }
     }
 
-
-
-    // REFFERENCE SOLUTION: https://stackoverflow.com/questions/70907172/how-to-store-unique-value-in-an-array-using-for-loop-in-solidity
-   
-    // only add `msg.sender` to `uniqueArray` if it's not there yet
-    function addUnique(address _id) private {
+    
+    function addUnique(address _id) private {   // only add `msg.sender` to `uniqueArray` if it's not there yet
         // check against the mapping
         if (isBidder[_id] == false) {
             // push the unique item to the array
-            uniqueArray.push(payable(_id));
-            // set the mapping value as well
+            uniqueArray.push(payable(_id)); 
+            // set the mapping value as well (because by default is created as`false`)
             isBidder[_id] = true;
         }
     }
 
+/********  ********************************  *******/
+/********  FUNCIONES EXTERNAL DEL CONTRATO  *******/
 
 
 /****   Make Offers  *******/
@@ -214,7 +217,6 @@ contract Tp2_Auction {
 
       }
 
-
 /****   Show Offers  *******/
 
     function showOffers() external view returns (Person2[] memory) {
@@ -227,8 +229,6 @@ contract Tp2_Auction {
         return winner;
     }
 
-
-
 /****    Claim $$$    *******/
 
     function claim() external auctionAlive isBidderM {
@@ -238,25 +238,26 @@ contract Tp2_Auction {
 
         (result, aux_val) = returnClaimedEthers(payable (msg.sender));
         
-        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-            revert("fallo el envio");  // yo revierto si falló
+        if( result == false){   
+            revert("fallo el envio");  
 
         } else {
             // update infoMapp:
-            //infoMapp[uniqueArray[i]].value = 0;  // NO ACTUALIZAR ESTE VALOR PORQUE ES LA ÚLTIMA OFERTA VÁLIDA
+            //infoMapp[uniqueArray[i]].value = 0;  // I don't update this value because it's the last valid bid
             infoMapp[msg.sender].balance -= aux_val;  
 
             // update infoArray
             Person2 memory aux;
             aux.id = msg.sender;
-            aux.value = 0; // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas - pongo 0 sólo como referencia
+            aux.value = 0; // I would have to show a debit as a negative number, 
+                            // but that would require changing from uint to int, which creates me other issues -
+                            // im using 0 just as a reference in my movements record
             infoArray.push(aux);
         }
 
     }
 
-
-    /*** CLAIM FOR EVERYBODY  
+    /*** (DELETED AND CHANGED FOR INDIVIDUAL CLAIMs)
     function claimForEverybody() external auctionAlive{
 
      bool result;
@@ -266,23 +267,23 @@ contract Tp2_Auction {
     
             (result, aux_val) = returnClaimedEthers(uniqueArray[i]);
             
-            if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-                revert("fallo el envio");  // yo revierto si falló
+            if( result == false){   
+                revert("fallo el envio");  // 
             } else {
                 // update infoMapp:
-                //infoMapp[uniqueArray[i]].value = 0;  // NO ACTUALIZAR ESTE VALOR PORQUE ES LA ÚLTIMA OFERTA VÁLIDA
+                //infoMapp[uniqueArray[i]].value = 0;  
                 infoMapp[uniqueArray[i]].balance -= aux_val;  
 
                 // update infoArray
                 Person2 memory aux;
                 aux.id = uniqueArray[i];
-                aux.value = 0; // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas - pongo 0 sólo como referencia
+                aux.value = 0; 
                 infoArray.push(aux);
             }
-
         }
     }
-    */
+    /*** *************************** ***** */
+
 
 /****    End Auction     *******/
 
@@ -295,7 +296,6 @@ contract Tp2_Auction {
 
 
 /****    Return $$$     *******/
-
     
     function returnOffers() external onlyOwner auctionEnded{
 
@@ -307,17 +307,17 @@ contract Tp2_Auction {
 
                 (result, aux_val) = returnEther(uniqueArray[i]);
                 
-                if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-                    revert("fallo el envio");  // yo revierto si falló
+                if( result == false){   
+                    revert("fallo el envio");  
                 } else {
                     // update infoMapp:
-                    //infoMapp[uniqueArray[i]].value = 0;  // NO ACTUALIZAR ESTE VALOR PORQUE ES LA ÚLTIMA OFERTA VÁLIDA
+                    //infoMapp[uniqueArray[i]].value = 0;  // I don't update this value because it's the last valid bid
                     infoMapp[uniqueArray[i]].balance -= aux_val;  
 
                     // update infoArray
                     Person2 memory aux;
                     aux.id = uniqueArray[i];
-                    aux.value = 0; // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas - pongo 0 sólo como referencia
+                    aux.value = 0; 
                     infoArray.push(aux);
                 }
 
@@ -325,17 +325,17 @@ contract Tp2_Auction {
 
                 (result, aux_val) = returnEtherWinner(uniqueArray[i]); 
 
-                if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-                    revert("fallo el envio");  // yo revierto si falló
+                if( result == false){   
+                    revert("fallo el envio");  
                 } else {
                     // updat infoMapp:
-                    //infoMapp[uniqueArray[i]].value = 0;  // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas  - pongo 0 sólo como referencia
+                    //infoMapp[uniqueArray[i]].value = 0;    
                     infoMapp[uniqueArray[i]].balance -= aux_val;  
 
                     // updat infoArray
                     Person2 memory aux;
                     aux.id = uniqueArray[i];
-                    aux.value = 0; // tendría que indicar un DEBITO como un nro negativo, pero debo corregir uint x int y me genera otros problemas - pongo 0 sólo como referencia
+                    aux.value = 0; 
                     infoArray.push(aux);
                 }
             }
@@ -343,17 +343,15 @@ contract Tp2_Auction {
     }
 
 
-/****    OWNER CLAIM $$$     *******/
-
+/****    OWNER CLAIM HIS MONEY  $$$     *******/
     
     function ownerClaim() external onlyOwner auctionEnded{
 
         (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
 
-        if( result == false){   // la función no revierte, devuelve True/False, por eso debe chequearse
-            revert("fallo el envio");  // yo revierto si falló
+        if( result == false){   
+            revert("fallo el envio");  
         } 
     }
-
 
 }

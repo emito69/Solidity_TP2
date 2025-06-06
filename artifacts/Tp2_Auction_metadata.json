@@ -137,19 +137,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "owner",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "ownerClaim",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -246,19 +233,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "window",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "winner",
 				"outputs": [
 					{
@@ -279,6 +253,11 @@
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
+			"stateVariables": {
+				"owner": {
+					"details": "@params"
+				}
+			},
 			"version": 1
 		},
 		"userdoc": {
@@ -304,11 +283,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0x52f8493493fc229c2286b21852365012d7b22d19292ce7db2c452197870020b6",
+			"keccak256": "0xbe48985f68e5a953c4a642f52e00cbec152c5028e5e9ff00d80881c06ef720dc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ef2895b851eb09886a7ea3549dd44123b26360fbd7278b30ee1ef4f088283c47",
-				"dweb:/ipfs/QmNQRV6UDrQMFwKE3uHHSuC35aPm7r4tWHBNddcZDRyBZz"
+				"bzz-raw://aa64fcd78a42ca07e24faac039e0b900d223675c77d16e209637a821bf067276",
+				"dweb:/ipfs/QmaVJVsShXyoBNAS5XzJChSnqg357azNa9ZpKkv23QL9dE"
 			]
 		},
 		"hardhat/console.sol": {
