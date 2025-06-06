@@ -18,15 +18,41 @@ Solidity_TP2
 
 <div id="header" align="center">
   <h2 align="center"> <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> Auction SmartContract - TP2 Solidity <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> </h2>
-  <h6 align="center"> I´m an Electronics Engineer working as an Instrumentation and Control Engineer at Transportadora de Gas del Sur (TGS) in Argentina.</h6>
-  <h6 align="center"> I have also completed courses of Machine Learnign, Artificial Intelligence and Web develepment.</h6>
+  ## Code Documentation and Explanation
+  <h6 align="center"> This repository contains a Solidity smart contract implementing a time-limited auction system with automatic extension functionality. The contract manages bids, tracks participants, handles fund distribution, and provides transparent auction information.</h6>
   <br>
 </div>
 
-<div align="left">
-<small>This is some smaller text.</small>
+## Table of Contents
+1. [Contract Overview](#contract-overview)
+2. [Key Features](#key-features)
+3. [Technical Specifications](#technical-specifications)
+4. [Contract Structure](#contract-structure)
+5. [Usage Guide](#usage-guide)
+6. [Events](#events)
+7. [Security Considerations](#security-considerations)
+8. [License](#license)
 
-</div>
+## Contract Overview
+
+
+```
+The Tp2_Auction contract implements an English auction mechanism where:
+
+- Bidders submit increasingly higher bids
+
+- The auction has a minimum starting bid (1000000 wei)
+
+- Each new bid must be at least 5% higher than the current highest bid
+
+- The auction automatically extends if bids are placed near the expiration time
+
+- Funds are securely managed and distributed after auction conclusion
+```
+
+
+
+
 
 
 <hr>
