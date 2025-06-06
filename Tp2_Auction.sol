@@ -3,57 +3,83 @@ pragma solidity >0.8.0;
 
 import "hardhat/console.sol";  //https://remix-ide.readthedocs.io/en/latest/hardhat.html
 
+//@notice: Auction contract managing bids and payouts
+//@dev: Implements a time-limited auction with automatic extension window
 contract Tp2_Auction {
 
-/// @notice 
-/// @dev
-/// @params
+//@notice 
+//@dev
+//@params
+//@returns: 
 
 
-/**** Data  ***/
-
+/**** Data / Variables ***/
+    //@notice: Contract owner address
     address private owner;
+    //@notice: Initial minimum bid value
     uint256 private init_value;
+    //@notice: Auction start timestamp
     uint256 private init_time;
+    //@notice: Time window for automatic auction extension
     uint256 private window;
+    //@notice: Auction expiration timestamp
     uint256 public expiration;
-    
+    //@notice: Auction state enum (on/off)
     enum State{ 
         on,
         off
     }
-
+    //@notice: Current auction state
     State public state;
 
+    //@notice: Bidder information structure
+    //@dev: Tracks last valid offer and total balance per bidder
     struct Person{
         address id;
         uint256 value;    // will save the last valid offer for each person
-        uint256 balance;  // will save the balance for each person (including offers, claimsclaims)
+        uint256 balance;  // will save the balance for each person (including offers, claims, returns)
     }
 
+    //@notice: Mapping of bidders to their information
     mapping (address => Person) public infoMapp;   
 
+    //@notice: Simplified bidder structure for transaction history
     struct Person2{
         address id;
         uint256 value;  
     }
 
-    Person2[] public infoArray;
+    //@notice: Array recording all auction movements
+    Person2[] public infoArray; // will record all movements (offers, claims, returns)
 
-    Person2 public winner;
+    //@notice: Current winning bid information
+    Person2 public winner;  // will record id and value of the current best offer
 
+    //@notice: Array of unique bidder addresses
     address payable[] public uniqueArray; // created as payables in order to use them to send money later
+
+    //@notice: Mapping to check if address is a bidder
     mapping (address => bool) isBidder; // default `false`
 
 
 /****   Events   *******/
 
+    //@notice: Emitted when a new bid is placed
+    //@dev: Includes bidder address and bid amount
+    //@params: _id - Bidder address, _value - Bid amount
     event NewOffer(address indexed _id, uint256 _value);
+
+
+    //@notice: Emitted when auction concludes
+    //@dev: Includes winner address and winning amount
+    //@params: _id - Winner address, _value - Winning amount
     event AuctionEnded(address _id, uint256 _value);
 
 
 /****   Constructor   *******/
 
+    //@notice: Initializes auction contract
+    //@dev: Sets owner, initial values and auction duration
     constructor() {
         owner=msg.sender;
         
@@ -73,26 +99,36 @@ contract Tp2_Auction {
 
 /****   Auxiliaries   *******/
 
+    //@notice: Restricts access to contract owner
+    //@dev: Reverts if caller is not the owner
     modifier onlyOwner(){
         require(owner==msg.sender,"not the owner");
         _;
     }
 
+    //@notice: Verifies caller is registered bidder
+    //@dev: Reverts if caller hasn't placed any bids
     modifier isBidderM(){
         require(isBidder[msg.sender] == true,"not a bidder");
         _;
     }
 
+    //@notice: Verifies auction is active
+    //@dev: Reverts if auction has ended
     modifier auctionAlive(){
         require(state == State.on,"auction already ended");
         _;
     }
 
+    //@notice: Verifies auction has ended
+    //@dev: Reverts if auction is still active
     modifier auctionEnded(){
         require(state == State.off,"auction still alive");
         _;
     }
 
+    //@notice: Validates bid conditions
+    //@dev: Checks timing and requires 5% increase over current best
     modifier validOffer(){
         if(state == State.on) {
         require((block.timestamp < expiration),"invalid offer time");
@@ -103,17 +139,26 @@ contract Tp2_Auction {
         }
     }
 
+    //@notice: Updates current winner information
+    //@dev: Modifies winner struct with new values
+    //@params: _id - New winner address, _value - New winning amount
     function updateWinner (address _id, uint256 _value) private {
         winner.id = _id;
         winner.value = _value;
     }
 
+    //@notice: Updates bidder information in mapping
+    //@dev: Sets last bid value and adds to balance
+    //@params: _id - Bidder address, _value - New bid amount, _value2 - Amount to add to balance
     function updateInfoMApp (address _id, uint256 _value, uint256 _value2) private {
         // _id = msg.sender
         infoMapp[_id].value = _value;  // msg.value
         infoMapp[_id].balance += _value2;  // msg.value OR deolution
     }
 
+    //@notice: Records transaction in history array
+    //@dev: Creates new entry in movement history
+    //@params: _id - Participant address, _value - Transaction amount
     function updateInfoArray (address _id, uint256 _value) private {
         Person2 memory aux;
         aux.id = _id;
@@ -121,6 +166,8 @@ contract Tp2_Auction {
         infoArray.push(aux);
     }
 
+    //@notice: Extends auction if near expiration
+    //@dev: Adds window time if called during extension period
     function updateExpiration () private {
          if (block.timestamp >= expiration - window) {
             expiration += window; 
@@ -128,7 +175,10 @@ contract Tp2_Auction {
         
     }
 
-
+    //@notice: Sends ether to specified address 
+    //@dev: Transfers 98% of balance with 2300 gas limit
+    //@params: _to - Recipient address
+    //@returns: result - Transfer success, aux_val1 - Original amount
     function returnEther(address payable _to) internal returns (bool, uint256) {
             // MSG.SENDER.CALL() - It calls the anonymous fallback function on msg.sender.
             // The empty quotes "" mean it's not calling any function, which is why it falls back to the fallback.
@@ -149,7 +199,10 @@ contract Tp2_Auction {
         }
     }
 
-
+    //@notice: Sends ether to winner (excluding winning bid)
+    //@dev: Similar to returnEther but deducts winning amount
+    //@params: _to - Winner address
+    //@returns: result - Transfer success, aux_val1 - Original amount
     function returnEtherWinner(address payable _to) internal returns (bool, uint256) {
 
         uint256 aux_val1 = (infoMapp[_to].balance - winner.value);
@@ -165,7 +218,10 @@ contract Tp2_Auction {
         }
     }
 
-
+    //@notice: Sends claimable ether to participant
+    //@dev: Calculates difference between balance and last bid
+    //@params: _to - Claimant address
+    //@returns: result - Transfer success, aux_val1 - Claimed amount
     function returnClaimedEthers(address payable _to) internal returns (bool, uint256) {
 
         if (infoMapp[_to].balance > infoMapp[_to].value) { // value in the mapp is the last valid offer 
@@ -188,7 +244,9 @@ contract Tp2_Auction {
         }
     }
 
-    
+    //@notice: Adds new unique bidder to registry
+    //@dev: Checks mapping to prevent duplicates
+    //@params: _id - Bidder address to add    
     function addUnique(address _id) private {   // only add `msg.sender` to `uniqueArray` if it's not there yet
         // check against the mapping
         if (isBidder[_id] == false) {
@@ -200,11 +258,13 @@ contract Tp2_Auction {
     }
 
 /********  ********************************  *******/
-/********  FUNCIONES EXTERNAL DEL CONTRATO  *******/
+/********    CONTRACTs EXTERNAL FUNCTIONS    *******/
 
 
 /****   Make Offers  *******/
 
+    //@notice: Places new bid in auction
+    //@dev: Requires valid offer amount and updates all records
     function Offer () external payable validOffer {
         //console.log(msg.sender);
         updateWinner(msg.sender, msg.value);
@@ -219,18 +279,26 @@ contract Tp2_Auction {
 
 /****   Show Offers  *******/
 
+    //@notice: Returns all auction movements
+    //@dev: Provides complete transaction history
+    //@returns: Array of Person2 structs with all bids
     function showOffers() external view returns (Person2[] memory) {
         return infoArray;
     }
 
 /****   Show Winner  *******/
 
+    //@notice: Shows current winning bid
+    //@dev: Returns winner information
+    //@returns: Person2 struct with winner data
     function showWinner() external view returns (Person2 memory) {
         return winner;
     }
 
 /****    Claim $$$    *******/
 
+    //@notice: Allows bidder to claim available funds (AMOUNT OVER HIS LAST VALID OFFER)
+    //@dev: Only available during active auction for registered bidders
     function claim() external auctionAlive isBidderM {
 
         bool result;
@@ -287,6 +355,8 @@ contract Tp2_Auction {
 
 /****    End Auction     *******/
 
+    //@notice: Ends auction if expiration time reached
+    //@dev: Only callable by owner during active auction
     function endAuction() external onlyOwner auctionAlive{
         if (block.timestamp > expiration) {
             state = State.off; // Aucition ended
@@ -296,7 +366,9 @@ contract Tp2_Auction {
 
 
 /****    Return $$$     *******/
-    
+
+    //@notice: Returns funds to all participants after auction
+    //@dev: Handles winner separately from other bidders    
     function returnOffers() external onlyOwner auctionEnded{
 
         bool result;
@@ -344,7 +416,9 @@ contract Tp2_Auction {
 
 
 /****    OWNER CLAIM HIS MONEY  $$$     *******/
-    
+
+    //@notice: Allows owner to withdraw contract balance
+    //@dev: Only callable after auction ends
     function ownerClaim() external onlyOwner auctionEnded{
 
         (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
