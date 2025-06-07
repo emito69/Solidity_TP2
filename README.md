@@ -186,6 +186,10 @@ Copyright (c) [year] [fullname]
 
 <hr>
 <h6 align="center"> This README provides comprehensive documentation for developers and users of the auction contract. The clear structure and detailed explanations make it easy to understand and implement the auction system.</h6>
+<h6 align="center"> "El blockchain no es solo tecnología, es una revolución en la forma como intercambiamos valor y confianza." - Anónimo.</h6>
+
+
+
 
 <hr>
 <div align="center">
