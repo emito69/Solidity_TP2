@@ -81,8 +81,6 @@ The Tp2_Auction contract implements an English auction mechanism where:
 ```
 - Solidity ^0.8.0
 
-- Hardhat (for development and testing)
-
 - Compatible with EVM blockchains
 ```
 ### Contract Variables
