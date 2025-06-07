@@ -181,7 +181,6 @@ Emitted when auction concludes
 
 ```
 MIT License
-Copyright (c) [year] [fullname]
 ```
 
 <hr>
