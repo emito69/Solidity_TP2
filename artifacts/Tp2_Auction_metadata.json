@@ -83,59 +83,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "infoArray",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "id",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "value",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "infoMapp",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "id",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "value",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "balance",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "ownerClaim",
 				"outputs": [],
@@ -211,43 +158,6 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "uniqueArray",
-				"outputs": [
-					{
-						"internalType": "address payable",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "winner",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "id",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "value",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -278,11 +188,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0x2df9c2fa862dbe453e373850e8e54c51fced1e66ba3fa3b510e5c6ea46de3aef",
+			"keccak256": "0xb25de35642878a3a1faf934f8045a2a4ce071e9fc9fa387ba6afdc496aa8f5f8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://64f9d5632d907c4fe0b3da03a5e56fb04deea9ed0b2526facba0dfb5f176f7b3",
-				"dweb:/ipfs/QmT5voxWXV4aC53igSBMNGPtaAiStFD7dEPRGKY8FxPd15"
+				"bzz-raw://637fb5e870f4a8bf1391b9514d9803faf5cb3465c19eacf075561842554dcd3b",
+				"dweb:/ipfs/QmTKrUV7GKMVTgwcLkTz24rMCcnioMk8qmUdhcaDsoYdYz"
 			]
 		},
 		"hardhat/console.sol": {

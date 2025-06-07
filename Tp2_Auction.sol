@@ -41,7 +41,7 @@ contract Tp2_Auction {
     }
 
     //@notice: Mapping of bidders to their information
-    mapping (address => Person) public infoMapp;   
+    mapping (address => Person) private infoMapp;   
 
     //@notice: Simplified bidder structure for transaction history
     struct Person2{
@@ -50,13 +50,13 @@ contract Tp2_Auction {
     }
 
     //@notice: Array recording all auction movements
-    Person2[] public infoArray; // will record all movements (offers, claims, returns)
+    Person2[] private infoArray; // will record all movements (offers, claims, returns)
 
     //@notice: Current winning bid information
-    Person2 public winner;  // will record id and value of the current best offer
+    Person2 private winner;  // will record id and value of the current best offer
 
     //@notice: Array of unique bidder addresses
-    address payable[] public uniqueArray; // created as payables in order to use them to send money later
+    address payable[] private uniqueArray; // created as payables in order to use them to send money later
 
     //@notice: Mapping to check if address is a bidder
     mapping (address => bool) isBidder; // default `false`
