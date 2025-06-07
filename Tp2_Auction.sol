@@ -132,7 +132,7 @@ contract Tp2_Auction {
     modifier validOffer(){
         if(state == State.on) {
         require((block.timestamp < expiration),"invalid offer time");
-        require((msg.value > winner.value * 105 / 100),"invalid offer value");
+        require((msg.value >= winner.value * 105 / 100),"invalid offer value");
         _;
         }else {
             revert("Auction Ended");
@@ -361,6 +361,8 @@ contract Tp2_Auction {
         if (block.timestamp > expiration) {
             state = State.off; // Aucition ended
             emit AuctionEnded(winner.id, winner.value);
+        } else {
+            revert("aun no expiro");
         }
     }
 
