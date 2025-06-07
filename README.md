@@ -198,7 +198,7 @@ Copyright (c) [year] [fullname]
 <hr>
  <h4> 🔭 About me : </h4>
 
-- 📝  I am an Instrumentation and Control engineer who constantly trains to keep up with new technologies..
+- 📝  I am an Instrumentation and Control engineer who constantly trains to keep up with new technologies.
 
 - 📫 How to reach me: [my Linkedin](https://www.linkedin.com/in/emiliano-alvarez-a6677b1b4).
 
