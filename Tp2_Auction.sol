@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.8.0;
 
-import "hardhat/console.sol";  //https://remix-ide.readthedocs.io/en/latest/hardhat.html
-
 //@notice: Auction contract managing bids and payouts
 //@dev: Implements a time-limited auction with automatic extension window
 contract Tp2_Auction {
@@ -266,16 +264,15 @@ contract Tp2_Auction {
     //@notice: Places new bid in auction
     //@dev: Requires valid offer amount and updates all records
     function Offer () external payable validOffer {
-        //console.log(msg.sender);
+        
         updateWinner(msg.sender, msg.value);
         updateInfoMApp(msg.sender, msg.value, msg.value);
         updateInfoArray(msg.sender, msg.value);
         updateExpiration();
         emit NewOffer(msg.sender, msg.value);
         addUnique(msg.sender);
-      // console.log("NAME: %s; AMMOUNT: %s", OffererInfo[msg.sender].name, OffererInfo[msg.sender].amount); 
-
-      }
+      
+    }
 
 /****   Show Offers  *******/
 

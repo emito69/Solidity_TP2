@@ -188,19 +188,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0x2d185bc024a1acbf84cfc707da58f4f02f3b51408bfe82af35cfdcb503cc4bdf",
+			"keccak256": "0x1745c0f8a5b526144e6f8c79c2a6dd72344a25e5bae4712f37c6a7f14773fa41",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://31cba72504fc09e12b26bf17b4ff27420b05a7a400a92ddb96429bf8a0c00673",
-				"dweb:/ipfs/QmW9W5L1kY1YqjkDoeUMNzm72uRERcLDeq6MBNdBwLYHs3"
-			]
-		},
-		"hardhat/console.sol": {
-			"keccak256": "0xf2560b5386574153057104d19a9e68a32ee912cf23c0c8df1fe9a0607f42d543",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://a63166e036b040826baa513772451a79925daa304b38749100efb089ac07cdc2",
-				"dweb:/ipfs/QmUtMTxUFKU6a5oFXsEJnTPvb3QPb7GDDmSv5yZ1jFHDwR"
+				"bzz-raw://5f561f689afc6b212e384bb2b3e80596ab1f9109a22b30fe85ad67f47f7771ac",
+				"dweb:/ipfs/QmVCfForLWCQ8WqmZPcqEfBrQswAqRHkC2McHxwbfQPNhf"
 			]
 		}
 	},
