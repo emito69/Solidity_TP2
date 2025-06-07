@@ -177,18 +177,18 @@ Emitted when auction concludes
 5. Funds are automatically returned after auction conclusion
 ```
 
-## Security Considerations
+## License
 
 ```
-
 MIT License
 Copyright (c) [year] [fullname]
 ```
- <h6 align="center"> This README provides comprehensive documentation for developers and users of the auction contract. The clear structure and detailed explanations make it easy to understand and implement the auction system.</h6>
-
 
 <hr>
-<div align="left">
+<h6 align="center"> This README provides comprehensive documentation for developers and users of the auction contract. The clear structure and detailed explanations make it easy to understand and implement the auction system.</h6>
+
+<hr>
+<div align="center">
  <h4> 🛠 Lenguages & Tools : </h4>
   <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-original.svg" title="Solidity" alt="Solidity" height="30" width="40"/>
   <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/>
@@ -198,11 +198,10 @@ Copyright (c) [year] [fullname]
 <hr>
  <h4> 🔭 About me : </h4>
 
-- 👯 I’m looking to collaborate on web developmet projects.
+- 📝  I am an Instrumentation and Control engineer who constantly trains to keep up with new technologies..
 
-- 📝 I’m currently learning new back and front-end programming skills
+- 📫 How to reach me: [my Linkedin](https://www.linkedin.com/in/emiliano-alvarez-a6677b1b4).
 
-- 📫 How to reach me: alvarezemiliano@gmail.com
 <br>
 <div id="badges" align="center">
     <a href="https://www.linkedin.com/in/emiliano-alvarez-a6677b1b4/">
