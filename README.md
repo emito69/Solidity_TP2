@@ -18,7 +18,7 @@ Solidity_TP2
 
 <div id="header" align="center">
   <h2 align="center"> <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> Auction SmartContract - TP2 Solidity <img src="https://github.com/devicons/devicon/blob/master/icons/solidity/solidity-plain.svg" title="Solidity" alt="Solidity" height="30" width="40"/> </h2>
-  ## Code Documentation and Explanation
+  Code Documentation and Explanation
   <h6 align="center"> This repository contains a Solidity smart contract implementing a time-limited auction system with automatic extension functionality. The contract manages bids, tracks participants, handles fund distribution, and provides transparent auction information.</h6>
   <br>
 </div>
