@@ -109,7 +109,7 @@ struct Person2 {
     address id;       // Participant address
     uint256 value;    // Transaction amount
 }
-
+```
 ### Modifiers
 ```
 modifier onlyOwner()       // Restricts to contract owner
