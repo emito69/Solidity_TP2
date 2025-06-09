@@ -49,17 +49,48 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "_id",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "PartialClaim",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "_id",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "ReturnedAmount",
+				"type": "event"
+			},
+			{
 				"inputs": [],
 				"name": "Offer",
 				"outputs": [],
 				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "claim",
-				"outputs": [],
-				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -85,6 +116,13 @@
 			{
 				"inputs": [],
 				"name": "ownerClaim",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "partialClaim",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -188,11 +226,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0x1745c0f8a5b526144e6f8c79c2a6dd72344a25e5bae4712f37c6a7f14773fa41",
+			"keccak256": "0x1e5ab1b78b784ba3084f04c728e3dfa3f2f2dcf0efbb6e512f280f9955b2ec6f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5f561f689afc6b212e384bb2b3e80596ab1f9109a22b30fe85ad67f47f7771ac",
-				"dweb:/ipfs/QmVCfForLWCQ8WqmZPcqEfBrQswAqRHkC2McHxwbfQPNhf"
+				"bzz-raw://302c4ec0cd1f952cea8dc809a2b75338474d9b00e0df279cec267ea164b079d8",
+				"dweb:/ipfs/QmRCM4wWfcdQs5cJZmT6XuWjYeWKDxbvDtWdbUQosQdiR2"
 			]
 		}
 	},

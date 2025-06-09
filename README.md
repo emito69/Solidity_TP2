@@ -139,7 +139,7 @@ const bids = await auctionContract.showOffers();
 
 ```javascript
 // For bidders to claim excess funds:
-await auctionContract.claim();
+await auctionContract.PartialClaim();
 
 // For owner to distribute funds after auction:
 await auctionContract.returnOffers();
@@ -164,6 +164,24 @@ Emitted when auction concludes
 - Parameters:
   - address _id: Winner address
   - uint256 _value: Winning amount
+```
+
+### PartialClaim
+
+```
+Emitted when a bidder request a PartialClaim (excess amount form his last valid offer)
+- Parameters:
+  - address _id: Bidder address
+  - uint256 _value: Returned amount
+```
+
+### ReturnedAmount
+
+```
+Emitted when the Auction has Ended and the Owner makes a Return for all the Participants
+- Parameters:
+  - address _id: Partici address
+  - uint256 _value: Returned amount
 ```
 
 ## Security Considerations

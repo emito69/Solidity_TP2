@@ -5,13 +5,8 @@ pragma solidity >0.8.0;
 //@dev: Implements a time-limited auction with automatic extension window
 contract Tp2_Auction {
 
-//@notice 
-//@dev
-//@params
-//@returns: 
-
-
 /**** Data / Variables ***/
+
     //@notice: Contract owner address
     address private owner;
     //@notice: Initial minimum bid value
@@ -67,11 +62,20 @@ contract Tp2_Auction {
     //@params: _id - Bidder address, _value - Bid amount
     event NewOffer(address indexed _id, uint256 _value);
 
-
     //@notice: Emitted when auction concludes
     //@dev: Includes winner address and winning amount
     //@params: _id - Winner address, _value - Winning amount
     event AuctionEnded(address _id, uint256 _value);
+
+    //@notice: Emitted when a bidder mrequest a PartialClaim
+    //@dev: Includes bidder address and the returned amount
+    //@params: _id - Bidder address, _value - Returned amount
+    event PartialClaim(address indexed _id, uint256 _value);
+
+    //@notice: Emitted when the Auction has Ended and the Owner makes a Return for all the Participants
+    //@dev: Includes participant address and the returned amount
+    //@params: _id - Bidder address, _value - Returned amount
+    event ReturnedAmount(address indexed _id, uint256 _value);
 
 
 /****   Constructor   *******/
@@ -100,7 +104,7 @@ contract Tp2_Auction {
     //@notice: Restricts access to contract owner
     //@dev: Reverts if caller is not the owner
     modifier onlyOwner(){
-        require(owner==msg.sender,"not the owner");
+        require(owner==msg.sender, "not the owner");
         _;
     }
 
@@ -268,7 +272,7 @@ contract Tp2_Auction {
         updateWinner(msg.sender, msg.value);
         updateInfoMApp(msg.sender, msg.value, msg.value);
         updateInfoArray(msg.sender, msg.value);
-        updateExpiration();
+        updateExpiration();  // expiration + window (if offer called during extension period window)
         emit NewOffer(msg.sender, msg.value);
         addUnique(msg.sender);
       
@@ -292,11 +296,11 @@ contract Tp2_Auction {
         return winner;
     }
 
-/****    Claim $$$    *******/
+/****    Partial Claim $$$    *******/
 
-    //@notice: Allows bidder to claim available funds (AMOUNT OVER HIS LAST VALID OFFER)
+    //@notice: Allows bidder to claim funds OVER HIS LAST VALID OFFER
     //@dev: Only available during active auction for registered bidders
-    function claim() external auctionAlive isBidderM {
+    function partialClaim() external auctionAlive isBidderM {
 
         bool result;
         uint256 aux_val;
@@ -304,7 +308,7 @@ contract Tp2_Auction {
         (result, aux_val) = returnClaimedEthers(payable (msg.sender));
         
         if( result == false){   
-            revert("fallo el envio");  
+            revert("transaction fail");  
 
         } else {
             // update infoMapp:
@@ -318,6 +322,7 @@ contract Tp2_Auction {
                             // but that would require changing from uint to int, which creates me other issues -
                             // im using 0 just as a reference in my movements record
             infoArray.push(aux);
+            emit PartialClaim(msg.sender, aux_val);  
         }
 
     }
@@ -359,7 +364,7 @@ contract Tp2_Auction {
             state = State.off; // Aucition ended
             emit AuctionEnded(winner.id, winner.value);
         } else {
-            revert("aun no expiro");
+            revert("not expired yet");
         }
     }
 
@@ -379,7 +384,7 @@ contract Tp2_Auction {
                 (result, aux_val) = returnEther(uniqueArray[i]);
                 
                 if( result == false){   
-                    revert("fallo el envio");  
+                    revert("transaction fail");  
                 } else {
                     // update infoMapp:
                     //infoMapp[uniqueArray[i]].value = 0;  // I don't update this value because it's the last valid bid
@@ -390,6 +395,7 @@ contract Tp2_Auction {
                     aux.id = uniqueArray[i];
                     aux.value = 0; 
                     infoArray.push(aux);
+                    emit ReturnedAmount(aux.id, aux_val);  
                 }
 
             } else {
@@ -397,7 +403,7 @@ contract Tp2_Auction {
                 (result, aux_val) = returnEtherWinner(uniqueArray[i]); 
 
                 if( result == false){   
-                    revert("fallo el envio");  
+                    revert("transaction fail");  
                 } else {
                     // updat infoMapp:
                     //infoMapp[uniqueArray[i]].value = 0;    
@@ -408,6 +414,7 @@ contract Tp2_Auction {
                     aux.id = uniqueArray[i];
                     aux.value = 0; 
                     infoArray.push(aux);
+                    emit ReturnedAmount(aux.id, aux_val);  
                 }
             }
         }
@@ -423,7 +430,7 @@ contract Tp2_Auction {
         (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
 
         if( result == false){   
-            revert("fallo el envio");  
+            revert("transaction fail");  
         } 
     }
 
