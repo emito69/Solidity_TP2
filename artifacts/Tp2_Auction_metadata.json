@@ -45,6 +45,25 @@
 						"type": "uint256"
 					}
 				],
+				"name": "EmergencyOwnerClaim",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "_id",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
 				"name": "NewOffer",
 				"type": "event"
 			},
@@ -233,11 +252,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0xcee25fea4b74e2f7b170b18a2a9dc4c1f244656b05d25a14726a4283625cd633",
+			"keccak256": "0xfdf4342f8293b41e989ce49e4c02afaa555994a77e48ce0320d221558329581d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3894eb37ead2c4ba868e7a032222774f8433e712b1e8f158a5d275dc6cf8df42",
-				"dweb:/ipfs/QmWCLhSSMATUGZzFGmReEviNJmXFgFLc8sphNueiviKePQ"
+				"bzz-raw://0a51a0fc9e82faaec92196dfd184942bb57516a55a7a2fe0ebfc900c2e3f9519",
+				"dweb:/ipfs/QmSvAyAzSV9opJC59RVEZw1ioKyehBbqeBQGzrMhuzoMH7"
 			]
 		}
 	},

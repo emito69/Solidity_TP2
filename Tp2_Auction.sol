@@ -120,6 +120,10 @@ contract Tp2_Auction {
     //@params: _id - Bidder address, _value - Returned amount
     event ReturnedAmount(address indexed _id, uint256 _value);
 
+    //@notice: Emitted when the Owner Stops de Auction in an Emergency situation and extract the entire Balance of the contract
+    //@dev: Includes Owner address and the Exctracted amount
+    //@params: _id - Owner address, _value - Exctracted amount
+    event EmergencyOwnerClaim(address indexed _id, uint256 _value);
 
 /****   Constructor   *******/
 
@@ -448,11 +452,15 @@ contract Tp2_Auction {
 
         state = State.off; // Aucition ended
         emit AuctionEnded(winner.id, winner.value);
-        (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
+
+        uint256 aux_bal = address(this).balance;
+        (bool result, ) = owner.call{gas: 2300, value:aux_bal}(""); 
 
         if( result == false){   
             revert("transaction fail");  
-        } 
+        } else {
+        emit EmergencyOwnerClaim(owner, aux_bal);  
+        }
     }
 
 }
