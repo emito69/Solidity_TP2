@@ -184,8 +184,17 @@ Emitted when a bidder request a PartialClaim (excess amount form his last valid 
 ```
 Emitted when the Auction has Ended and the Owner makes a Return for all the Participants
 - Parameters:
-  - address _id: Partici address
+  - address _id: Participant address
   - uint256 _value: Returned amount
+```
+
+### EmergencyOwnerClaim
+
+```
+Emitted when the Owner Stops de Auction in an Emergency situation and extract the entire Balance of the contract
+- Parameters:
+  - address _id: Owner address
+  - uint256 _value: Extracted amount
 ```
 
 ## Security Considerations
