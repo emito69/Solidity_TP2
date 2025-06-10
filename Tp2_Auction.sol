@@ -55,6 +55,49 @@ contract Tp2_Auction {
     mapping (address => bool) isBidder; // default `false`
 
 
+/****   Modifiers / Requiers   *******/
+
+    //@notice: Restricts access to contract owner
+    //@dev: Reverts if caller is not the owner
+    modifier onlyOwner(){
+        require(owner==msg.sender, "not the owner");
+        _;
+    }
+
+    //@notice: Verifies caller is registered bidder
+    //@dev: Reverts if caller hasn't placed any bids
+    modifier isBidderM(){
+        require(isBidder[msg.sender] == true,"not a bidder");
+        _;
+    }
+
+    //@notice: Verifies auction is active
+    //@dev: Reverts if auction has ended
+    modifier auctionAlive(){
+        require(state == State.on,"auction already ended");
+        _;
+    }
+
+    //@notice: Verifies auction has ended
+    //@dev: Reverts if auction is still active
+    modifier auctionEnded(){
+        require(state == State.off,"auction still alive");
+        _;
+    }
+
+    //@notice: Validates bid conditions
+    //@dev: Checks timing and requires 5% increase over current best
+    modifier validOffer(){
+        if(state == State.on) {
+        require((block.timestamp < expiration),"invalid offer time");
+        require((msg.value >= winner.value * 105 / 100),"invalid offer value");
+        _;
+        }else {
+            revert("Auction Ended");
+        }
+    }
+
+
 /****   Events   *******/
 
     //@notice: Emitted when a new bid is placed
@@ -100,46 +143,6 @@ contract Tp2_Auction {
 
 
 /****   Auxiliaries   *******/
-
-    //@notice: Restricts access to contract owner
-    //@dev: Reverts if caller is not the owner
-    modifier onlyOwner(){
-        require(owner==msg.sender, "not the owner");
-        _;
-    }
-
-    //@notice: Verifies caller is registered bidder
-    //@dev: Reverts if caller hasn't placed any bids
-    modifier isBidderM(){
-        require(isBidder[msg.sender] == true,"not a bidder");
-        _;
-    }
-
-    //@notice: Verifies auction is active
-    //@dev: Reverts if auction has ended
-    modifier auctionAlive(){
-        require(state == State.on,"auction already ended");
-        _;
-    }
-
-    //@notice: Verifies auction has ended
-    //@dev: Reverts if auction is still active
-    modifier auctionEnded(){
-        require(state == State.off,"auction still alive");
-        _;
-    }
-
-    //@notice: Validates bid conditions
-    //@dev: Checks timing and requires 5% increase over current best
-    modifier validOffer(){
-        if(state == State.on) {
-        require((block.timestamp < expiration),"invalid offer time");
-        require((msg.value >= winner.value * 105 / 100),"invalid offer value");
-        _;
-        }else {
-            revert("Auction Ended");
-        }
-    }
 
     //@notice: Updates current winner information
     //@dev: Modifies winner struct with new values
@@ -377,8 +380,10 @@ contract Tp2_Auction {
 
         bool result;
         uint256 aux_val;
+        uint length = uniqueArray.length;  // caching the array length outside the loop to avoid reading the array length each iteration
+        Person2 memory aux;  // declaration of aux variable outside de loop avoiding repetition each iteration
 
-       for (uint i = 0; i < uniqueArray.length; i++) {
+       for (uint i = 0; i < length; i++) {
             if(uniqueArray[i] != winner.id){
 
                 (result, aux_val) = returnEther(uniqueArray[i]);
@@ -391,7 +396,7 @@ contract Tp2_Auction {
                     infoMapp[uniqueArray[i]].balance -= aux_val;  
 
                     // update infoArray
-                    Person2 memory aux;
+                    //Person2 memory aux;  // declaration of aux variable outside de loop avoiding repetition each iteration
                     aux.id = uniqueArray[i];
                     aux.value = 0; 
                     infoArray.push(aux);
@@ -410,7 +415,7 @@ contract Tp2_Auction {
                     infoMapp[uniqueArray[i]].balance -= aux_val;  
 
                     // updat infoArray
-                    Person2 memory aux;
+                    //Person2 memory aux;  // declaration of aux variable outside de loop avoiding repetition each iteration
                     aux.id = uniqueArray[i];
                     aux.value = 0; 
                     infoArray.push(aux);
@@ -427,6 +432,22 @@ contract Tp2_Auction {
     //@dev: Only callable after auction ends
     function ownerClaim() external onlyOwner auctionEnded{
 
+        (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
+
+        if( result == false){   
+            revert("transaction fail");  
+        } 
+    }
+
+/****    EMERGENCY OWNER Claim FUNCTION     *******/
+
+    //@notice: Allows owner to withdraw contract balance WITHOUT RESTRICTIONS 
+            // Auction is ended to avoid new offers. Bidders balance is kept in order to future returns.
+    //@dev: EMERGENCY callable WITHOUT RESTRICTIONS.
+    function emergencyOwnerClaim() external onlyOwner {
+
+        state = State.off; // Aucition ended
+        emit AuctionEnded(winner.id, winner.value);
         (bool result, ) = owner.call{gas: 2300, value:address(this).balance}(""); 
 
         if( result == false){   

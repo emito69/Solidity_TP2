@@ -95,6 +95,13 @@
 			},
 			{
 				"inputs": [],
+				"name": "emergencyOwnerClaim",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "endAuction",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -226,11 +233,11 @@
 	},
 	"sources": {
 		"Tp2_Auction.sol": {
-			"keccak256": "0x1e5ab1b78b784ba3084f04c728e3dfa3f2f2dcf0efbb6e512f280f9955b2ec6f",
+			"keccak256": "0xcee25fea4b74e2f7b170b18a2a9dc4c1f244656b05d25a14726a4283625cd633",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://302c4ec0cd1f952cea8dc809a2b75338474d9b00e0df279cec267ea164b079d8",
-				"dweb:/ipfs/QmRCM4wWfcdQs5cJZmT6XuWjYeWKDxbvDtWdbUQosQdiR2"
+				"bzz-raw://3894eb37ead2c4ba868e7a032222774f8433e712b1e8f158a5d275dc6cf8df42",
+				"dweb:/ipfs/QmWCLhSSMATUGZzFGmReEviNJmXFgFLc8sphNueiviKePQ"
 			]
 		}
 	},

@@ -146,6 +146,10 @@ await auctionContract.returnOffers();
 
 // For owner to withdraw proceeds:
 await auctionContract.ownerClaim();
+
+// For owner to EMERGENCY withdraw proceeds:
+await auctionContract.emergencyOwnerClaim();
+
 ```
 
 ## Events
